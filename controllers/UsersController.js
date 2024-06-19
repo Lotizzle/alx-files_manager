@@ -1,6 +1,5 @@
 // UsersController.js
 
-const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto');
 const dbClient = require('../utils/db');
 

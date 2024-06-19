@@ -1,8 +1,8 @@
 // server.js
 
 const express = require('express');
-const routes = require('./routes/index');
 const bodyParser = require('body-parser');
+const routes = require('./routes/index');
 
 const app = express();
 const port = process.env.PORT || 5000;
