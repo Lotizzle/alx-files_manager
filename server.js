@@ -1,16 +1,13 @@
 // server.js
 const express = require('express');
-const bodyParser = require('body-parser');
-const routes = require('./routes/index');
-
 const app = express();
 const port = process.env.PORT || 5000;
+const routes = require('./routes');
 
-app.use(bodyParser.json());
+// Load all routes
 app.use('/', routes);
 
+// Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
-module.exports = app;
