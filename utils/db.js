@@ -1,3 +1,5 @@
+// db.js
+
 import { MongoClient } from 'mongodb';
 
 class DBClient {
@@ -19,21 +21,19 @@ class DBClient {
   }
 
   isAlive() {
-    return this.client && this.client.topology && this.client.topology.isConnected();
+    return this.client.isConnected();
   }
 
   async nbUsers() {
-    if (!this.isAlive()) return 0;
     const usersCollection = this.db.collection('users');
     return usersCollection.countDocuments();
   }
 
   async nbFiles() {
-    if (!this.isAlive()) return 0;
     const filesCollection = this.db.collection('files');
     return filesCollection.countDocuments();
   }
 }
 
 const dbClient = new DBClient();
-export default dbClient;
+module.exports = dbClient;

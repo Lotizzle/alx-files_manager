@@ -8,11 +8,6 @@ import AppController from '../controllers/AppController';
 const injectRoutes = (api) => {
   api.get('/status', AppController.getStatus);
   api.get('/stats', AppController.getStats);
-
-  api.all('*', (req, res, next) => {
-    errorResponse(new APIError(404, `Cannot ${req.method} ${req.url}`), req, res, next);
-  });
-  api.use(errorResponse);
 };
 
 export default injectRoutes;
