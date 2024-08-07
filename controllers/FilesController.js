@@ -83,6 +83,7 @@ class FilesController {
       parentId,
     });
   }
+
   static async getShow(req, res) {
     const token = req.header('X-Token');
     if (!token) return res.status(401).json({ error: 'Unauthorized' });
@@ -109,6 +110,7 @@ class FilesController {
       parentId: file.parentId,
     });
   }
+
   static async getIndex(req, res) {
     const token = req.header('X-Token');
     if (!token) return res.status(401).json({ error: 'Unauthorized' });
@@ -125,7 +127,8 @@ class FilesController {
     const skip = page * pageSize;
 
     const query = { userId: ObjectId(userId), parentId: parentId === '0' ? 0 : ObjectId(parentId) };
-    const files = await dbClient.db.collection('files').find(query).skip(skip).limit(pageSize).toArray();
+    const files = await dbClient.db.collection('files').find(query).skip(skip).limit(pageSize)
+      .toArray();
 
     const responseFiles = files.map((file) => ({
       id: file._id,
