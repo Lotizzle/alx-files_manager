@@ -7,6 +7,7 @@ import dbClient from './utils/db';
 import router from './routes/index';
 
 const fileQueue = new Bull('fileQueue');
+const userQueue = new Bull('userQueue');
 
 const generateThumbnail = async (path, options) => {
   try {
@@ -42,6 +43,22 @@ fileQueue.process(async (job) => {
   const thumbnailPromises = sizes.map((size) => generateThumbnail(file.localPath, { width: size }));
 
   await Promise.all(thumbnailPromises);
+});
+
+userQueue.process(async (job) => {
+  const { userId } = job.data;
+
+  if (!userId) {
+    throw new Error('Missing userId');
+  }
+
+  const user = await dbClient.db.collection('users').findOne({ _id: ObjectId(userId) });
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  console.log(`Welcome ${user.email}!`);
 });
 
 const app = express();
