@@ -3,6 +3,8 @@ import { ObjectId } from 'mongodb';
 import imageThumbnail from 'image-thumbnail';
 import fs from 'fs';
 import dbClient from './utils/db';
+import express from 'express';
+import router from './routes/index';
 
 const fileQueue = new Bull('fileQueue');
 
@@ -44,4 +46,13 @@ fileQueue.process(async (job) => {
   await Promise.all(thumbnailPromises);
 });
 
+const app = express();
+const port = process.env.PORT || 5000;
+
+app.use(express.json());
+app.use('/', router);
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
 console.log('Worker is running');
