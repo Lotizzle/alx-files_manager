@@ -2,8 +2,8 @@ import Bull from 'bull';
 import { ObjectId } from 'mongodb';
 import imageThumbnail from 'image-thumbnail';
 import fs from 'fs';
-import dbClient from './utils/db';
 import express from 'express';
+import dbClient from './utils/db';
 import router from './routes/index';
 
 const fileQueue = new Bull('fileQueue');
@@ -39,9 +39,7 @@ fileQueue.process(async (job) => {
   }
 
   const sizes = [500, 250, 100];
-  const thumbnailPromises = sizes.map(size =>
-    generateThumbnail(file.localPath, { width: size })
-  );
+  const thumbnailPromises = sizes.map((size) => generateThumbnail(file.localPath, { width: size }));
 
   await Promise.all(thumbnailPromises);
 });
